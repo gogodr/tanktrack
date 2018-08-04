@@ -1,0 +1,28 @@
+{
+  "name": "tanktrack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gogodr/tanktrack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gogodr/tanktrack/issues"
+  },
+  "homepage": "https://github.com/gogodr/tanktrack#readme",
+  "dependencies": {
+    "boom": "^7.2.0",
+    "cron": "^1.3.0",
+    "hapi": "^17.5.3",
+    "joi": "^13.5.2",
+    "mailgun-js": "^0.20.0",
+    "moment": "^2.22.2",
+    "sequelize": "^4.38.0"
+  }
+}
