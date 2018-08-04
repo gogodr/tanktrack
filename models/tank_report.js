@@ -1,5 +1,5 @@
 const uuidv4 = require('uuid/v4');
-export default (sequalize, DataTypes) => {
+module.exports = (sequalize, DataTypes) => {
     const TankReport = sequalize.define('tank_report', {
         tank_report_id: {
             type: DataTypes.UUID,

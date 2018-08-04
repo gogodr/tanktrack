@@ -24,3 +24,4 @@ class TankInteractor {
         });
     }
 }
+module.exports = TankInteractor

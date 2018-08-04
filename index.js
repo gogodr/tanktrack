@@ -1,19 +1,21 @@
 const Hapi = require('hapi');
-const CronJob = require('cron');
+const CronJob = require('cron').CronJob;
 
 const api_key = 'key-9e8c8e8c579f3c0443a85ff24e7914e5';
 const domain = 'mail.gogodr.xyz';
 const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 
+const TankController = require('./controllers/tank');
+
 const server = Hapi.server({
-    host: '168.235.98.114',
+    host: 'localhost',
     port: 3000
 });
 
 console.log('Loading Models and Connecting to Database');
 const models = require('./models');
 console.log('Loading Tank Controller');
-const tankController = require('./controllers/tank')(server, models);
+const tankController = new TankController(server, models);
 
 async function start() {
     try {

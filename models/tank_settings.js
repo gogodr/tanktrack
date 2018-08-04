@@ -1,4 +1,4 @@
-export default (sequalize, DataTypes) => {
+module.exports = (sequalize, DataTypes) => {
     const TankSettings = sequalize.define('tank_settings', {
         active: {
             type: DataTypes.BOOLEAN,

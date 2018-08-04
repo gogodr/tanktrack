@@ -6,7 +6,7 @@ class TankController {
     constructor(server, models) {
         this.server = server;
         this.models = models;
-        this.interactor = TankInteractor(this.models);
+        this.interactor = new TankInteractor(this.models);
         this.initialize()
     }
 
@@ -16,7 +16,9 @@ class TankController {
             method: 'GET',
             path: '/tank/{id}',
             handler: async (request, reply) => {
-                const params = { ...request.params, ...request.payload };
+                const params = {
+                    id: request.params.id
+                };
                 const validRequest = getTankValidator(params);
                 if (validRequest.error) {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
@@ -31,7 +33,10 @@ class TankController {
             method: 'POST',
             path: '/tank',
             handler: async (request, reply) => {
-                const params = { ...request.params, ...request.payload };
+                const params = {
+                    businessUnitLocationId: request.params.businessUnitLocationId,
+                    name: request.payload.name
+                };
                 const validRequest = addTankValidator(params);
                 if (validRequest.error) {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
