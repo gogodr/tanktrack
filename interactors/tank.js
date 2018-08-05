@@ -2,8 +2,9 @@ const { Op } = require('sequelize');
 const moment = require('moment');
 
 class TankInteractor {
-    constructor(models) {
+    constructor(models, mailgun) {
         this.models = models;
+        this.mailgun = mailgun;
     }
 
     async getTank(id) {

@@ -1,10 +1,7 @@
 const Hapi = require('hapi');
 const CronJob = require('cron').CronJob;
-
-const api_key = 'key-9e8c8e8c579f3c0443a85ff24e7914e5';
-const domain = 'mail.gogodr.xyz';
-const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
-
+const config = require('config');
+const mailgun = require('mailgun-js')({ apiKey: config.get('mailgun.api_key'), domain: config.get('mailgun.domain') });
 const TankController = require('./controllers/tank');
 
 const server = Hapi.server({
@@ -15,12 +12,13 @@ const server = Hapi.server({
 console.log('Loading Models and Connecting to Database');
 const models = require('./models');
 console.log('Loading Tank Controller');
-const tankController = new TankController(server, models);
+const tankController = new TankController(server, models, mailgun);
+tankController.initialize();
 
 async function start() {
     try {
         console.log('Sync Database');
-        await models.sequelize.sync();
+        await models.sequelize.sync();        
         console.log('Start Server');
         await server.start();
         console.log('Start CronJob')

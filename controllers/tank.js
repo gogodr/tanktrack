@@ -8,11 +8,11 @@ const { getTankValidator,
 const TankInteractor = require('../interactors/tank');
 
 class TankController {
-    constructor(server, models) {
+    constructor(server, models, mailgun) {
         this.server = server;
         this.models = models;
-        this.interactor = new TankInteractor(this.models);
-        this.initialize()
+        this.mailgun = mailgun;
+        this.interactor = new TankInteractor(this.models, this.mailgun);
     }
 
     initialize() {
