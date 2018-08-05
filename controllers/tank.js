@@ -1,5 +1,10 @@
 const Boom = require('Boom');
-const { getTankValidator, addTankValidator } = require('../validators/tank');
+const { getTankValidator,
+    getTankSettingsValidator,
+    getTankWorkValidator,
+    postTankReportValidator,
+    postTankWorkValidator,
+    addTankValidator } = require('../validators/tank');
 const TankInteractor = require('../interactors/tank');
 
 class TankController {
@@ -11,10 +16,27 @@ class TankController {
     }
 
     initialize() {
-        console.log('Register: GET /tank/{id}/settings');
+        console.log('Register: GET /tank/{id}');
         this.server.route({
             method: 'GET',
             path: '/tank/{id}',
+            handler: async (request, reply) => {
+                const params = {
+                    id: request.params.id
+                };
+                const validRequest = getTankValidator(params);
+                if (validRequest.error) {
+                    throw Boom.badRequest('Invalid Query', validRequest.error);
+                }
+                const tank = await this.interactor.getTank(params);
+                return { tank };
+            }
+        });
+
+        console.log('Register: GET /tank/{id}/settings');
+        this.server.route({
+            method: 'GET',
+            path: '/tank/{id}/settings',
             handler: async (request, reply) => {
                 const params = {
                     id: request.params.id
@@ -68,11 +90,11 @@ class TankController {
                     id: request.params.id,
                     report: request.payload.report
                 };
-                const validRequest = postTankWorkValidator(params);
+                const validRequest = postTankReportValidator(params);
                 if (validRequest.error) {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
                 }
-                const tank = await this.interactor.postTankWork(params);
+                const tank = await this.interactor.postTankReport(params);
                 return { tank };
             }
         });

@@ -19,6 +19,11 @@ module.exports = (sequalize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
+        },
+        work: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: 'OPERATION_STOPPED'
         }
     });
     TankSettings.associate = (models) => {
