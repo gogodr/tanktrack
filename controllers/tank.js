@@ -11,7 +11,7 @@ class TankController {
     }
 
     initialize() {
-        console.log('Register: GET /tank/{id}');
+        console.log('Register: GET /tank/{id}/settings');
         this.server.route({
             method: 'GET',
             path: '/tank/{id}',
@@ -19,11 +19,60 @@ class TankController {
                 const params = {
                     id: request.params.id
                 };
-                const validRequest = getTankValidator(params);
+                const validRequest = getTankSettingsValidator(params);
                 if (validRequest.error) {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
                 }
-                const tank = await this.interactor.getTank(request.params.id);
+                const tank = await this.interactor.getTankSettings(params);
+                return { tank };
+            }
+        });
+        console.log('Register: GET /tank/{id}/work');
+        this.server.route({
+            method: 'GET',
+            path: '/tank/{id}',
+            handler: async (request, reply) => {
+                const params = {
+                    id: request.params.id
+                };
+                const validRequest = getTankWorkValidator(params);
+                if (validRequest.error) {
+                    throw Boom.badRequest('Invalid Query', validRequest.error);
+                }
+                const tank = await this.interactor.getTankWork(params);
+                return { tank };
+            }
+        });
+        console.log('Register: POST /tank/{id}/work');
+        this.server.route({
+            method: 'POST',
+            path: '/tank',
+            handler: async (request, reply) => {
+                const params = {
+                    id: request.params.id
+                };
+                const validRequest = postTankWorkValidator(params);
+                if (validRequest.error) {
+                    throw Boom.badRequest('Invalid Query', validRequest.error);
+                }
+                const tank = await this.interactor.postTankWork(params);
+                return { tank };
+            }
+        });
+        console.log('Register: POST /tank/{id}/report');
+        this.server.route({
+            method: 'POST',
+            path: '/tank',
+            handler: async (request, reply) => {
+                const params = {
+                    id: request.params.id,
+                    report: request.payload.report
+                };
+                const validRequest = postTankWorkValidator(params);
+                if (validRequest.error) {
+                    throw Boom.badRequest('Invalid Query', validRequest.error);
+                }
+                const tank = await this.interactor.postTankWork(params);
                 return { tank };
             }
         });
