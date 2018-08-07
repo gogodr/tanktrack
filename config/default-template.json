@@ -1,0 +1,11 @@
+{
+    "mailgun":{
+        "api_key":"API_KEY",
+        "domain":"DOMAIN"
+    },
+    "postgresql":{
+        "database":"DATABASE_NAME",
+        "user":"USERNAME",
+        "password":"PASSWORD"
+    }
+}

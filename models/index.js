@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize('cencosudtest', 'admin', 'cencosudtest', {
+const config = require('config');
+const sequelize = new Sequelize(config.get('postgresql.database'), config.get('postgresql.user'), config.get('postgresql.password'), {
     dialect: 'postgres',
     logging: false
 });

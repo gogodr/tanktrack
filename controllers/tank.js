@@ -1,4 +1,4 @@
-const Boom = require('Boom');
+const Boom = require('boom');
 const { getTankValidator,
     getTankSettingsValidator,
     getTankWorkValidator,
@@ -52,7 +52,7 @@ class TankController {
         console.log('Register: GET /tank/{id}/work');
         this.server.route({
             method: 'GET',
-            path: '/tank/{id}',
+            path: '/tank/{id}/work',
             handler: async (request, reply) => {
                 const params = {
                     id: request.params.id
@@ -68,7 +68,7 @@ class TankController {
         console.log('Register: POST /tank/{id}/work');
         this.server.route({
             method: 'POST',
-            path: '/tank',
+            path: '/tank/{id}/work',
             handler: async (request, reply) => {
                 const params = {
                     id: request.params.id
@@ -84,7 +84,7 @@ class TankController {
         console.log('Register: POST /tank/{id}/report');
         this.server.route({
             method: 'POST',
-            path: '/tank',
+            path: '/tank/{id}/report',
             handler: async (request, reply) => {
                 const params = {
                     id: request.params.id,
@@ -102,7 +102,7 @@ class TankController {
         console.log('Register: POST /business-unit-location/{businessUnitLocationId}/tank');
         this.server.route({
             method: 'POST',
-            path: '/tank',
+            path: '/business-unit-location/{businessUnitLocationId}/tank',
             handler: async (request, reply) => {
                 const params = {
                     businessUnitLocationId: request.params.businessUnitLocationId,
