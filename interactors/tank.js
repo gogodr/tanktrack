@@ -29,26 +29,23 @@ class TankInteractor {
 
     async getTank(request) {
         console.log('find', request.id);
-        return new Promise((res, rej) => {
-            this.models.tank.findOne({
-                where: { tank_id: request.id },
-                include: [{
-                    model: this.models.tank_settings,
-                    as: 'settings'
-                }, {
-                    model: this.models.tank_report,
-                    as: 'reports',
-                    where: {
-                        createdAt: {
-                            [Op.gte]: moment().subtract(3, 'days').toDate()
-                        }
+        const tank = await this.models.tank.findOne({
+            where: { tank_id: request.id },/*
+            include: [{
+                model: this.models.tank_settings,
+                as: 'settings'
+            }, {
+                model: this.models.tank_report,
+                as: 'reports',
+                where: {
+                    createdAt: {
+                        [Op.gte]: moment().subtract(3, 'days').toDate()
                     }
-                }]
-            }).then(tank => {
-                console.log('found', tank);
-                return res(tank);
-            });
+                }
+            }]*/
         });
+        console.log('found', tank);
+        return tank;
     }
 
     async getTankSettings(request) {
