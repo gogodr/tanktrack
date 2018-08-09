@@ -31,10 +31,10 @@ class TankInteractor {
         return await this.models.tank.findOne({
             where: { tank_id: id },
             include: [{
-                model: models.tank_settings,
+                model: this.models.tank_settings,
                 as: 'settings'
             }, {
-                model: models.tank_report,
+                model: this.models.tank_report,
                 as: 'reports',
                 where: {
                     createdAt: {
