@@ -27,6 +27,7 @@ module.exports = (sequalize, DataTypes) => {
         }
     });
     TankSettings.associate = (models) => {
+        console.log('TankSettings belongs to models.tank')
         TankSettings.belongsTo(models.tank, {
             foreignKey: {
                 name: 'tank_id',
