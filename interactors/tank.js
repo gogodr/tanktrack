@@ -11,7 +11,9 @@ class TankInteractor {
             'name': request.name
         });
         let tankSettingsRequest = {
-            'tank_id': tank.tank_id
+            'tank_id': tank.tank_id,
+            'active':true,
+            'work':'OPERATION'
         }
         if (request.schedule) {
             tankSettingsRequest.schedule = request.schedule;
