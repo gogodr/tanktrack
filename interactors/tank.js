@@ -7,7 +7,7 @@ class TankInteractor {
         this.mailgun = mailgun;
     }
     async addTank(request) {
-        tank = await this.models.tank.create({
+        const tank = await this.models.tank.create({
             'name': request.name
         });
         tankSettingsRequest = {
