@@ -68,9 +68,11 @@ class TankInteractor {
             report: request.report
         });
         if (request.report === 'SUCCESSFUL_DISPENSE') {
-            const tank = await this.models.tank.findById(request.id);
-            tank.last_dispense = new Date();
-            await tank.save();
+            const tank_settings = await this.models.tank_settings.findOne({
+                where: { tank_id: request.id }
+            });
+            tank_settings.last_dispense = new Date();
+            await tank_settings.save();
         }
         return report.toJSON();
     }
