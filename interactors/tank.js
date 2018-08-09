@@ -8,7 +8,8 @@ class TankInteractor {
     }
     async addTank(request) {
         const tank = await this.models.tank.create({
-            'name': request.name
+            'name': request.name,
+            'business_unit_location_id': request.businessUnitLocationId
         });
         let tankSettingsRequest = {
             'tank_id': tank.tank_id,
@@ -30,11 +31,15 @@ class TankInteractor {
     async getTank(request) {
         console.log('find', request.id);
         const tank = await this.models.tank.findOne({
-            where: { tank_id: request.id },/*
+            where: { tank_id: request.id },
             include: [{
                 model: this.models.tank_settings,
                 as: 'settings'
-            }, {
+            }]
+        });
+        console.log('found', tank);
+        return tank;
+        /*, {
                 model: this.models.tank_report,
                 as: 'reports',
                 where: {
@@ -42,10 +47,7 @@ class TankInteractor {
                         [Op.gte]: moment().subtract(3, 'days').toDate()
                     }
                 }
-            }]*/
-        });
-        console.log('found', tank);
-        return tank;
+            }*/
     }
 
     async getTankSettings(request) {
