@@ -37,7 +37,12 @@ class TankInteractor {
                 as: 'settings'
             }, {
                 model: this.models.tank_report,
-                as: 'reports'
+                as: 'reports',
+                where: {
+                    createdAt: {
+                        [Op.gte]: moment().subtract(3, 'days').toDate()
+                    }
+                }
             }]
         });
         console.log('found', tank);
