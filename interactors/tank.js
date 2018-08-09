@@ -38,6 +38,7 @@ class TankInteractor {
             }, {
                 model: this.models.tank_report,
                 as: 'reports',
+                required: false,
                 where: {
                     createdAt: {
                         [Op.gte]: moment().subtract(3, 'days').toDate()
