@@ -17,7 +17,9 @@ module.exports = (sequalize, DataTypes) => {
             foreignKey: {
                 name: 'business_unit_location_id'
             }
-        })
+        });
+        Tank.hasOne(models.tank_settings, { as: 'settings' });
+        Tank.hasMany(models.tank_report, { as: 'reports' });
     }
     return Tank;
 }
