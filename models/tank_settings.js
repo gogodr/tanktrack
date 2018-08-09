@@ -24,7 +24,11 @@ module.exports = (sequalize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: 'OPERATION_STOPPED'
-        }
+        },
+        last_dispense:{
+            type: DataTypes.DATE,
+            allowNull: true
+        },
     });
     TankSettings.associate = (models) => {
         console.log('TankSettings belongs to models.tank')
