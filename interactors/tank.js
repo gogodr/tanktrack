@@ -12,8 +12,8 @@ class TankInteractor {
         });
         let tankSettingsRequest = {
             'tank_id': tank.tank_id,
-            'active':true,
-            'work':'OPERATION'
+            'active': true,
+            'work': 'OPERATION'
         }
         if (request.schedule) {
             tankSettingsRequest.schedule = request.schedule;
@@ -28,7 +28,8 @@ class TankInteractor {
     }
 
     async getTank(request) {
-        return await this.models.tank.findOne({
+        console.log('find', request.id);
+        tank = await this.models.tank.findOne({
             where: { tank_id: request.id },
             include: [{
                 model: this.models.tank_settings,
@@ -43,6 +44,8 @@ class TankInteractor {
                 }
             }]
         });
+        console.log('found', tank);
+        return tank;
     }
 
     async getTankSettings(request) {
