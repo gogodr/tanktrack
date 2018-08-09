@@ -10,7 +10,7 @@ class TankInteractor {
         const tank = await this.models.tank.create({
             'name': request.name
         });
-        tankSettingsRequest = {
+        let tankSettingsRequest = {
             'tank_id': tank.tank_id
         }
         if (request.schedule) {
@@ -19,9 +19,10 @@ class TankInteractor {
         if (request.dispense_amount) {
             tankSettingsRequest.dispense_amount = request.dispense_amount;
         }
-        tankSettings = await this.models.tank_settings.create(tankSettingsRequest);
-        tank_response = tank.toJSON();
+        const tankSettings = await this.models.tank_settings.create(tankSettingsRequest);
+        let tank_response = tank.toJSON();
         tank_response.settings = tankSettings.toJSON();
+        return tank_response;
     }
 
     async getTank(id) {
