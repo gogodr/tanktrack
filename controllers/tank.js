@@ -112,7 +112,7 @@ class TankController {
                 if (validRequest.error) {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
                 }
-                const tank = await this.interactor.addTank(request.body.payload);
+                const tank = await this.interactor.addTank(params);
                 return { tank };
             }
         });
