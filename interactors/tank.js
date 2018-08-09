@@ -29,7 +29,7 @@ class TankInteractor {
 
     async getTank(request) {
         console.log('find', request.id);
-        tank = await this.models.tank.findOne({
+        const tank = await this.models.tank.findOne({
             where: { tank_id: request.id },
             include: [{
                 model: this.models.tank_settings,
