@@ -19,7 +19,7 @@ module.exports = (sequalize, DataTypes) => {
             }
         });
         Tank.hasOne(models.tank_settings, { as: 'settings', foreignKey: 'tank_id'  });
-        Tank.hasMany(models.tank_report, { as: 'reports' });
+        Tank.hasMany(models.tank_report, { as: 'reports', foreignKey: 'tank_id', sourceKey: 'tank_id' });
     }
     return Tank;
 }

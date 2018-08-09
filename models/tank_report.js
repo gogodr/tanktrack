@@ -15,9 +15,9 @@ module.exports = (sequalize, DataTypes) => {
     });
     TankReport.associate = (models) => {
         TankReport.belongsTo(models.tank, {
-            foreignKey: {
-                name: 'tank_id'
-            }
+            as: 'reports',
+            foreignKey: 'tank_id',
+            targetKey:'tank_id'
         })
     }
     return TankReport;
