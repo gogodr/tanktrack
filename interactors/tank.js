@@ -52,14 +52,22 @@ class TankInteractor {
         const tankSettings = await this.models.tank_settings.findOne({
             where: { tank_id: request.id }
         });
-        return tankSettings.toJSON();
+        if (tankSettings) {
+            return tankSettings.toJSON();
+        } else {
+            return false;
+        }
     }
 
     async getTankWork(request) {
         const tankSettings = await this.models.tank_settings.findOne({
             where: { tank_id: request.id }
         });
-        return tankSettings.work;
+        if (tankSettings) {
+            return tankSettings.work;
+        } else {
+            return false;
+        }
     }
 
     async postTankReport(request) {
