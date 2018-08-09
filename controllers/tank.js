@@ -29,8 +29,7 @@ class TankController {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
                 }
                 const tank = await this.interactor.getTank(params);
-                console.log('GET tank', tank);
-                return { tank };
+                return tank;
             }
         });
 
@@ -46,8 +45,8 @@ class TankController {
                 if (validRequest.error) {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
                 }
-                const tank = await this.interactor.getTankSettings(params);
-                return { tank };
+                const settings = await this.interactor.getTankSettings(params);
+                return settings;
             }
         });
         console.log('Register: GET /tank/{id}/work');
@@ -62,8 +61,8 @@ class TankController {
                 if (validRequest.error) {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
                 }
-                const tank = await this.interactor.getTankWork(params);
-                return { tank };
+                const work = await this.interactor.getTankWork(params);
+                return { work };
             }
         });
         console.log('Register: POST /tank/{id}/work');
@@ -79,7 +78,7 @@ class TankController {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
                 }
                 const tank = await this.interactor.postTankWork(params);
-                return { tank };
+                return tank;
             }
         });
         console.log('Register: POST /tank/{id}/report');
@@ -96,7 +95,7 @@ class TankController {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
                 }
                 const tank = await this.interactor.postTankReport(params);
-                return { tank };
+                return tank;
             }
         });
 
@@ -114,7 +113,7 @@ class TankController {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
                 }
                 const tank = await this.interactor.addTank(params);
-                return { tank };
+                return tank;
             }
         });
     }

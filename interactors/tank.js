@@ -29,7 +29,6 @@ class TankInteractor {
     }
 
     async getTank(request) {
-        console.log('find', request.id);
         const tank = await this.models.tank.findOne({
             where: { tank_id: request.id },
             include: [{
@@ -46,24 +45,14 @@ class TankInteractor {
                 }
             }]
         });
-        console.log('found', tank);
-        return tank;
-        /*, {
-                model: this.models.tank_report,
-                as: 'reports',
-                where: {
-                    createdAt: {
-                        [Op.gte]: moment().subtract(3, 'days').toDate()
-                    }
-                }
-            }*/
+        return tank.toJSON();
     }
 
     async getTankSettings(request) {
         const tankSettings = await this.models.tank_settings.findOne({
             where: { tank_id: request.id }
         });
-        return tankSettings.toJSON();;
+        return tankSettings.toJSON();
     }
 
     async getTankWork(request) {
@@ -78,7 +67,7 @@ class TankInteractor {
             tank_id: request.id,
             report: request.report
         });
-        return report.toJSON();;
+        return report.toJSON();
     }
 
     async postTankWork(request) {
@@ -98,9 +87,8 @@ class TankInteractor {
                 break;
         }
         await tankSettings.save();
-        return tankSettings.toJSON();;
+        return tankSettings.toJSON();
     }
-
 
 }
 module.exports = TankInteractor
