@@ -42,7 +42,7 @@ class TankInteractor {
                     }
                 }
             }]
-        }).toJSON();;
+        });
     }
 
     async getTankSettings(request) {

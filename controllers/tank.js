@@ -29,6 +29,7 @@ class TankController {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
                 }
                 const tank = await this.interactor.getTank(params);
+                print('GET tank', tank);
                 return { tank };
             }
         });
