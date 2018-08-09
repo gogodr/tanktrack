@@ -6,6 +6,23 @@ class TankInteractor {
         this.models = models;
         this.mailgun = mailgun;
     }
+    async addTank(request) {
+        tank = await this.models.tank.create({
+            'name': request.name
+        });
+        tankSettingsRequest = {
+            'tank_id': tank.tank_id
+        }
+        if (request.schedule) {
+            tankSettingsRequest.schedule = request.schedule;
+        }
+        if (request.dispense_amount) {
+            tankSettingsRequest.dispense_amount = request.dispense_amount;
+        }
+        tankSettings = await this.models.tank_settings.create(tankSettingsRequest);
+        tank_response = tank.toJSON();
+        tank_response.settings = tankSettings.toJSON();
+    }
 
     async getTank(id) {
         return await this.models.tank.findOne({
@@ -22,14 +39,14 @@ class TankInteractor {
                     }
                 }
             }]
-        });
+        }).toJSON();;
     }
 
     async getTankSettings(request) {
         const tankSettings = await this.models.tank_settings.findOne({
             where: { tank_id: request.id }
         });
-        return tankSettings;
+        return tankSettings.toJSON();;
     }
 
     async getTankWork(request) {
@@ -44,7 +61,7 @@ class TankInteractor {
             tank_id: request.id,
             report: request.report
         });
-        return report;
+        return report.toJSON();;
     }
 
     async postTankWork(request) {
@@ -64,7 +81,7 @@ class TankInteractor {
                 break;
         }
         await tankSettings.save();
-        return tankSettings;
+        return tankSettings.toJSON();;
     }
 
 
