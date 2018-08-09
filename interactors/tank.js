@@ -35,6 +35,9 @@ class TankInteractor {
             include: [{
                 model: this.models.tank_settings,
                 as: 'settings'
+            }, {
+                model: this.models.tank_report,
+                as: 'reports'
             }]
         });
         console.log('found', tank);
