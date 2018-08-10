@@ -25,7 +25,9 @@ async function start() {
         const monitor = new CronJob('* * * * *', async () => {
             console.log('check reports and send mails if needed');
             const offlineTanks = await tankController.getOfflineTanks();
-            console.log(offlineTanks)
+            for (const tank in offlineTanks) {
+                tankController.sendTankOfflineMail(tank.tank_id);
+            }
         }, null, true, 'America/Lima');
     }
     catch (err) {

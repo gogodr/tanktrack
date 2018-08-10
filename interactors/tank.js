@@ -139,7 +139,7 @@ class TankInteractor {
             if (err) {
                 console.log('Mailgun Error:', err);
             }
-            console.log('Mailgun', body);
+            console.log('Mailgun Sent', body);
         });
     }
 
