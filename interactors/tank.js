@@ -84,7 +84,7 @@ class TankInteractor {
             case 'OPERATION_STOPPED':
             case 'DISPENSE_ERROR_STOPPED':
             case 'SUCCESSFUL_DISPENSE':
-                await sendTankFullInfoMail(request.id, request.report);
+                await this.sendTankFullInfoMail(request.id, request.report);
                 break;
         }
 
