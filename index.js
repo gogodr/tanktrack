@@ -26,6 +26,7 @@ async function start() {
             console.log('check reports and send mails if needed');
             const offlineTanks = await tankController.getOfflineTanks();
             for (const tank in offlineTanks) {
+                console.log('offline tank', tank);
                 tankController.sendTankOfflineMail(tank.tank_id);
             }
         }, null, true, 'America/Lima');
