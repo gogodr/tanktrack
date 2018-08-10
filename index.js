@@ -25,7 +25,10 @@ async function start() {
         const monitor = new CronJob('* * * * *', async () => {
             console.log('check reports and send mails if needed');
             const offlineTanks = await tankController.getOfflineTanks();
-            for (const tank in offlineTanks) {
+            if (!offlineTanks) {
+                console.log('No Offline Tanks');
+            }
+            for (const tank of offlineTanks) {
                 console.log('offline tank', tank);
                 tankController.sendTankOfflineMail(tank.tank_id);
             }
