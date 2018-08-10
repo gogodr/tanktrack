@@ -131,7 +131,7 @@ class TankInteractor {
 
     async sendMail(mailSubject, mailBody) {
         this.mailgun.messages().send({
-            from: 'Tanktrack <tanktrack@limaem.com>',
+            from: 'Tanktrack <tanktrack@mail.limaem.com>',
             to: this.mail_list,
             subject: mailSubject,
             text: mailBody
