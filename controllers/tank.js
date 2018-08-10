@@ -119,7 +119,6 @@ class TankController {
     }
 
     sendTankOfflineMail(tank_id) {
-        console.log('send mail, controller', tank_id);
         this.interactor.sendTankOfflineMail(tank_id);
     }
 

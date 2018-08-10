@@ -115,9 +115,7 @@ class TankInteractor {
     }
 
     async sendTankFullInfoMail(tank_id, report) {
-        console.log('searching for', tank_id);
         const tank = await this.models.tank.findById(tank_id);
-        console.log('tank found', tank);
         const tank_settings = await this.models.tank_settings.findOne({ where: { tank_id: tank_id } });
         const business_unit_location = await this.models.business_unit_location.findById(tank.business_unit_location_id);
         const business_unit = await this.models.business_unit.findById(business_unit_location.business_unit_id);
@@ -141,7 +139,7 @@ class TankInteractor {
             if (err) {
                 console.log('Mailgun Error:', err);
             }
-            console.log('Mailgun Sent', body);
+            console.log('Mailgun Sent');
         });
     }
 

@@ -29,7 +29,6 @@ async function start() {
                 console.log('No Offline Tanks');
             }
             for (const tank of offlineTanks) {
-                console.log('offline tank', tank);
                 tankController.sendTankOfflineMail(tank.tank_id);
             }
         }, null, true, 'America/Lima');
