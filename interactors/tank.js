@@ -100,7 +100,6 @@ class TankInteractor {
 
     async getOfflineTanks() {
         const tanks = await this.models.tank.findAll({
-            where: {},
             include: [{
                 model: this.models.tank_settings,
                 as: 'settings',
@@ -113,7 +112,7 @@ class TankInteractor {
             }]
         });
         console.log('tanks', tanks);
-        return tanks.toJSON() || [];
+        return tanks;
     }
 
     async sendTankFullInfoMail(tank_id, report) {
