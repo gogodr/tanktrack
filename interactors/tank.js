@@ -144,7 +144,7 @@ class TankInteractor {
     }
 
     async sendTankOfflineMail(tank_id) {
-        await sendTankFullInfoMail(tank_id, 'TANK_OFFLINE');
+        await this.sendTankFullInfoMail(tank_id, 'TANK_OFFLINE');
     }
 
     async postTankWork(request) {
