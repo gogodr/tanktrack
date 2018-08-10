@@ -112,6 +112,7 @@ class TankInteractor {
                 }
             }]
         });
+        console.log('tanks', tanks);
         return tanks.toJSON() || [];
     }
 
