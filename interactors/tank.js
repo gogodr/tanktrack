@@ -55,6 +55,8 @@ class TankInteractor {
             where: { tank_id: request.id }
         });
         if (tankSettings) {
+            tankSettings.last_activity = new Date();
+            await tankSettings.save();
             return tankSettings.toJSON();
         } else {
             return false;
