@@ -105,14 +105,13 @@ class TankInteractor {
                 as: 'settings',
                 where: {
                     last_activity: {
-                        [Op.gte]: moment().subtract(30, 'minutes').toDate()
+                        [Op.lte]: moment().subtract(30, 'minutes').toDate()
                     },
                     active: true
                 }
             }]
         });
-        console.log('tanks', tanks);
-        return tanks;
+        return tanks.map(a => a.toJSON());
     }
 
     async sendTankFullInfoMail(tank_id, report) {
