@@ -25,13 +25,16 @@ module.exports = (sequalize, DataTypes) => {
             allowNull: false,
             defaultValue: 'OPERATION_STOPPED'
         },
+        last_activity:{
+            type: DataTypes.DATE,
+            allowNull: true
+        },
         last_dispense:{
             type: DataTypes.DATE,
             allowNull: true
         },
     });
     TankSettings.associate = (models) => {
-        console.log('TankSettings belongs to models.tank')
         TankSettings.belongsTo(models.tank, {
             foreignKey: {
                 name: 'tank_id',

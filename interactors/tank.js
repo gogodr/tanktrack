@@ -1,10 +1,12 @@
 const { Op } = require('sequelize');
 const moment = require('moment');
+const config = require('config');
 
 class TankInteractor {
     constructor(models, mailgun) {
         this.models = models;
         this.mailgun = mailgun;
+        this.mail_list = config.get('mailgun.mail_list')
     }
     async addTank(request) {
         const tank = await this.models.tank.create({
@@ -82,7 +84,39 @@ class TankInteractor {
             tank_settings.last_dispense = new Date();
             await tank_settings.save();
         }
+        switch (request.report) {
+            case 'OPERATION_RESUMED':
+            case 'OPERATION_STOPPED':
+            case 'DISPENSE_ERROR_STOPPED':
+            case 'SUCCESSFUL_DISPENSE':
+                const tank = await this.models.tank.findById(request.id);
+                const business_unit_location = await this.models.business_unit_location.findById(tank.business_unit_location_id);
+                const business_unit = await this.models.business_unit.findById(business_unit_location.business_unit_id);
+                const business = await this.models.business.findById(business_unit.business_id);
+                const mailSubject = `Tank Report in: ${business.name}>${business_unit.name}>${business_unit_location.name}`;
+                const mailBody = `Tank Report in: ${business.name}>${business_unit.name}>${business_unit_location.name}\n` +
+                    `Tank: ${tank.tank_id}\n` +
+                    `Report: ${request.report}` +
+                    `Last Activity: ${tank_settings.last_activity}\n` +
+                    `Last Dispense: ${tank_settings.last_dispense}`;
+                this.sendMail(mailSubject, mailBody);
+                break;
+        }
         return report.toJSON();
+    }
+
+    async sendMail(mailSubject, mailBody) {
+        this.mailgun.messages().send({
+            from: 'Tanktrack <tanktrack@limaem.com>',
+            to: this.mail_list,
+            subject: mailSubject,
+            text: mailBody
+        }, (err, body) => {
+            if (err) {
+                console.log('Mailgun Error:', err);
+            }
+            console.log('Mailgun', body);
+        });
     }
 
     async postTankWork(request) {
