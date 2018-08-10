@@ -22,10 +22,10 @@ async function start() {
         console.log('Start Server');
         await server.start();
         console.log('Start CronJob')
-        const monitor = new CronJob('*/30 * * * *', async () => {
+        const monitor = new CronJob('* * * * *', async () => {
             console.log('check reports and send mails if needed');
             const offlineTanks = await tankController.getOfflineTanks();
-            console.log()
+            console.log(offlineTanks)
         }, null, true, 'America/Lima');
     }
     catch (err) {
