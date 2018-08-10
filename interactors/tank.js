@@ -79,6 +79,15 @@ class TankInteractor {
             tank_id: request.id,
             report: request.report
         });
+        switch (request.report) {
+            case 'OPERATION_RESUMED':
+            case 'OPERATION_STOPPED':
+            case 'DISPENSE_ERROR_STOPPED':
+            case 'SUCCESSFUL_DISPENSE':
+                await sendTankFullInfoMail(request.id, request.report);
+                break;
+        }
+
         if (request.report === 'SUCCESSFUL_DISPENSE') {
             const tank_settings = await this.models.tank_settings.findOne({
                 where: { tank_id: request.id }
@@ -86,25 +95,39 @@ class TankInteractor {
             tank_settings.last_dispense = new Date();
             await tank_settings.save();
         }
-        switch (request.report) {
-            case 'OPERATION_RESUMED':
-            case 'OPERATION_STOPPED':
-            case 'DISPENSE_ERROR_STOPPED':
-            case 'SUCCESSFUL_DISPENSE':
-                const tank = await this.models.tank.findById(request.id);
-                const business_unit_location = await this.models.business_unit_location.findById(tank.business_unit_location_id);
-                const business_unit = await this.models.business_unit.findById(business_unit_location.business_unit_id);
-                const business = await this.models.business.findById(business_unit.business_id);
-                const mailSubject = `Tank Report in: ${business.name}>${business_unit.name}>${business_unit_location.name}`;
-                const mailBody = `Tank Report in: ${business.name}>${business_unit.name}>${business_unit_location.name}\n` +
-                    `Tank: ${tank.tank_id}\n` +
-                    `Report: ${request.report}` +
-                    `Last Activity: ${tank_settings.last_activity}\n` +
-                    `Last Dispense: ${tank_settings.last_dispense}`;
-                this.sendMail(mailSubject, mailBody);
-                break;
-        }
         return report.toJSON();
+    }
+
+    async getOfflineTanks() {
+        const tanks = await this.models.tank.findAll({
+            where: {},
+            include: [{
+                model: this.models.tank_settings,
+                as: 'settings',
+                where: {
+                    last_activity: {
+                        [Op.gte]: moment().subtract(30, 'minutes').toDate()
+                    },
+                    active: true
+                }
+            }]
+        }).toJSON();
+        return tanks || [];
+    }
+
+    async sendTankFullInfoMail(tank_id, report) {
+        const tank = await this.models.tank.findById(tank_id);
+        const tank_settings = await this.models.tank_settings.findOne({ where: { tank_id: tank_id } });
+        const business_unit_location = await this.models.business_unit_location.findById(tank.business_unit_location_id);
+        const business_unit = await this.models.business_unit.findById(business_unit_location.business_unit_id);
+        const business = await this.models.business.findById(business_unit.business_id);
+        const mailSubject = `Tank Report in: ${business.name}>${business_unit.name}>${business_unit_location.name}`;
+        const mailBody = `Tank Report in: ${business.name}>${business_unit.name}>${business_unit_location.name}\n` +
+            `Tank: ${tank.tank_id}\n` +
+            `Report: ${report}\n` +
+            `Last Activity: ${tank_settings.last_activity}\n` +
+            `Last Dispense: ${tank_settings.last_dispense}`;
+        this.sendMail(mailSubject, mailBody);
     }
 
     async sendMail(mailSubject, mailBody) {
@@ -119,6 +142,10 @@ class TankInteractor {
             }
             console.log('Mailgun', body);
         });
+    }
+
+    async sendTankOfflineMail(tank_id) {
+        await sendTankFullInfoMail(tank_id, 'TANK_OFFLINE');
     }
 
     async postTankWork(request) {

@@ -117,6 +117,14 @@ class TankController {
             }
         });
     }
+
+    sendTankOfflineMail(tank_id) {
+        this.interactor.sendTankOfflineMail(tank_id);
+    }
+
+    async getOfflineTanks(){
+        return await this.interactor.getOfflineTanks();
+    }
 }
 
 module.exports = TankController

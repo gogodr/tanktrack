@@ -18,12 +18,14 @@ tankController.initialize();
 async function start() {
     try {
         console.log('Sync Database');
-        await models.sequelize.sync();        
+        await models.sequelize.sync();
         console.log('Start Server');
         await server.start();
         console.log('Start CronJob')
-        const monitor = new CronJob('*/15 * * * *', async () => {
+        const monitor = new CronJob('*/30 * * * *', async () => {
             console.log('check reports and send mails if needed');
+            const offlineTanks = await tankController.getOfflineTanks();
+            console.log()
         }, null, true, 'America/Lima');
     }
     catch (err) {
