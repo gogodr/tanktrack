@@ -111,8 +111,8 @@ class TankInteractor {
                     active: true
                 }
             }]
-        }).toJSON();
-        return tanks || [];
+        });
+        return tanks.toJSON() || [];
     }
 
     async sendTankFullInfoMail(tank_id, report) {
