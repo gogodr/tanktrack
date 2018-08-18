@@ -41,6 +41,7 @@ class TankController {
                 const params = {
                     id: request.params.id
                 };
+                console.log(`Tank ${params.id}: ONLINE`);
                 const validRequest = getTankSettingsValidator(params);
                 if (validRequest.error) {
                     throw Boom.badRequest('Invalid Query', validRequest.error);
